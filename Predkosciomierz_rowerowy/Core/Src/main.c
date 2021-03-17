@@ -23,7 +23,6 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-
 #include "DEV_Config.h"
 #include "LCD_Driver.h"
 #include "LCD_GUI.h"
@@ -31,10 +30,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-uint8_t Is_First_Captured = 0; 
-uint32_t IC_Value1 = 0;
+uint32_t IC_Value = 0;
 uint32_t IC_Value2 = 0;
-uint32_t recivedata  = 0;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -99,6 +96,8 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM3_Init();
   MX_USART2_UART_Init();
+  MX_TIM8_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 	LCD_SCAN_DIR Lcd_ScanDir = SCAN_DIR_DFT;//SCAN_DIR_DFT = D2U_L2R	
 	LCD_Init(Lcd_ScanDir, 1000);
@@ -107,7 +106,8 @@ int main(void)
 	TP_GetAdFac();
 	TP_Show_Main();
 	
-	HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_3);
+	HAL_TIM_IC_Start_IT(&htim8, TIM_CHANNEL_4);
+	HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -115,7 +115,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-		TP_Temp();
+		TP_Temp(IC_Value);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -169,44 +169,26 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-	if ((htim==&htim3)&&(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3))  // if interrput source is channel 3
+	if ((htim==&htim8)&&(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4))  // if interrput source is channel 3
 	{
-
-		if (Is_First_Captured==0)  // is the first value captured ? 
-		{
-			IC_Value1 = HAL_TIM_ReadCapturedValue(&htim3, TIM_CHANNEL_3);  // capture the first value
-			Is_First_Captured =1;  // set the first value captured as true
-		}
-
-		else if (Is_First_Captured)  // if the first is captured
-		{
-			IC_Value2 = HAL_TIM_ReadCapturedValue(&htim3, TIM_CHANNEL_3);  // capture second value
-			__HAL_TIM_SET_COUNTER(htim, 0); 
-			Is_First_Captured = 0;  // reset the first captured
-			recivedata=IC_Value2-IC_Value1;//time of pulse
-			if(recivedata > 100)		
-			{
-				uint8_t text[10] = "mam";
-				HAL_UART_Transmit(&huart2,text , 10, 1000);
-			}
-	  }
+		IC_Value = HAL_TIM_ReadCapturedValue(&htim8, TIM_CHANNEL_4);  // capture the first value
+		IC_Value= IC_Value / 5;
+		__HAL_TIM_SET_COUNTER(htim, 0);
 	}
 }
 
-//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-//{
-//	if(GPIO_Pin == GPIO_PIN_8)
-//	{
-//		
-//		uint8_t text[4] = "jest";
-//		HAL_UART_Transmit(&huart2, text, 4, 1000);
-//	}
-//}
-
-//void EXTI9_5_IRQHandler(void)
-//{
-//	HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
-//}
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance == TIM6)
+	{
+		if(STATE == 2)
+		{
+			TP_Update_Speed(IC_Value);
+			uint8_t text[25] = "Wykryto przerwanie\r\n";
+			HAL_UART_Transmit(&huart2,text , 25, 1000);
+		}
+	}
+}
 
 /* USER CODE END 4 */
 

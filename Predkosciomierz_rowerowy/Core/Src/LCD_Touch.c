@@ -22,10 +22,13 @@ extern LCD_DIS sLCD_DIS;
 static TP_DEV sTP_DEV;
 static TP_DRAW sTP_Draw;
 char SIZE_CIRCLE [3];
-int STATE = 1;
 int size_tab = 0;
 float size_circle = 0;
-
+int STATE = 1;
+int X_new = 0;
+int Y_new = 0;
+int X_old = 0;
+int Y_old = 0;
 #define PI 3.14
 /*******************************************************************************
 function:
@@ -750,7 +753,7 @@ str[i] = '\0';
 return i; 
 } 
 
-void TP_Temp(void)
+void TP_Temp(uint32_t time)
 {
     TP_Scan(0);
     if (sTP_DEV.chStatus & TP_PRESS_DOWN) {		//Press the button
@@ -768,13 +771,12 @@ void TP_Temp(void)
 							if ((sTP_Draw.Xpoint > 40 && sTP_Draw.Xpoint < 215) && (sTP_Draw.Ypoint > 120 && sTP_Draw.Ypoint < 190) && STATE == 1)
 							{
 								TP_Show_Speed();
-								TP_Update_Speed();
 								STATE = 2;
 							}
 							else if ((sTP_Draw.Xpoint > 262 && sTP_Draw.Xpoint < 440) && (sTP_Draw.Ypoint > 120 && sTP_Draw.Ypoint < 190) && STATE == 1)
 							{
-								TP_Show_Config();
 								STATE = 3;
+								TP_Show_Config();
 								size_tab = 0;
 								for(int i = 0; i < 4; i++)
 								{
@@ -783,8 +785,8 @@ void TP_Temp(void)
 							}
 							else if (sTP_Draw.Xpoint < 100 && sTP_Draw.Ypoint > 280 && (STATE == 2 || STATE == 3))
 							{
-								TP_Show_Main();
 								STATE = 1;
+								TP_Show_Main();
 								size_tab = 0;
 								for(int i = 0; i < 4; i++)
 								{
@@ -859,8 +861,9 @@ void TP_Temp(void)
 							}		
 							else if ((sTP_Draw.Xpoint > 370 && sTP_Draw.Xpoint < 480) && (sTP_Draw.Ypoint > 280 && sTP_Draw.Ypoint < 320) && STATE == 3)
 							{
-								TP_Show_Main();
 								STATE = 1;
+								TP_Show_Main();
+
 							}									
              //Vertical screen
             } 
@@ -972,9 +975,22 @@ void TP_Show_Speed(void)
 		GUI_DisString_EN(33, 20, "Predkosciomierz rowerowy", &Font24, WHITE, BLUE);
 		GUI_DrawLine(0, 55, LCD_WIDTH, 55, RED, LINE_SOLID, DOT_PIXEL_3X3);
 		
-		GUI_DisString_EN(5, 80, "Twoja aktualna predkosc:      km/h", &Font20, WHITE, BLUE);	
+		GUI_DisString_EN(5, 80, "Twoja aktualna predkosc:     km/h", &Font20, WHITE, BLUE);	
 		
 		GUI_DisString_EN(20, 290, "Powrot", &Font20, WHITE, BLUE);
+		
+		GUI_DrawLine(35, 260, 35, 110, BLUE, LINE_SOLID, DOT_PIXEL_2X2); //pionowa
+		GUI_DrawLine(35, 260, 460, 260, BLUE, LINE_SOLID, DOT_PIXEL_2X2); // pozioma
+		GUI_DrawLine(35, 110, 25, 130, BLUE, LINE_SOLID, DOT_PIXEL_2X2); //górnastrzalka
+		GUI_DrawLine(35, 110, 45, 130, BLUE, LINE_SOLID, DOT_PIXEL_2X2); //górnastrzalka
+		GUI_DrawLine(460, 260, 440, 250, BLUE, LINE_SOLID, DOT_PIXEL_2X2);//dolnastrzalka	
+		GUI_DrawLine(460, 260, 440, 270, BLUE, LINE_SOLID, DOT_PIXEL_2X2); //dolnastrzalka
+		
+		GUI_DrawLine(35, 160, 403, 160, BLUE, LINE_SOLID, DOT_PIXEL_1X1); // pozioma 50km/h
+		GUI_DisString_EN(5, 155, "50", &Font20, WHITE, BLUE);
+		
+		GUI_DisString_EN(10, 115, "V", &Font20, WHITE, BLUE);	
+		GUI_DisString_EN(440, 270, "t", &Font20, WHITE, BLUE);	
 	} 
 	else 
 	{ //Vertical screen display
@@ -982,11 +998,11 @@ void TP_Show_Speed(void)
 	}
 }
 
-void TP_Update_Speed(void)
+void TP_Update_Speed(uint32_t time)
 {
 	float speed = 0.0;
 	
-	speed = size_circle * 2.54 * PI;
+	speed = ((size_circle * 0.0254 * 3.14)/((float)time/1000.0))*3.6;//km/h
 	
 	char *speed_string = (char*)malloc(13);
 	
@@ -998,10 +1014,33 @@ void TP_Update_Speed(void)
 	speed_string[i] = '.';
 	fpart = fpart * pow(10, 1); 
 	intToStr((int)fpart, speed_string + i + 1, 1);
-		
-	GUI_DisString_EN(320, 80, speed_string, &Font20, WHITE, BLUE);		
+	
+	LCD_SetArealColor(340, 80, 410, 95, FONT_BACKGROUND);
+	GUI_DisString_EN(340, 80, speed_string, &Font20, WHITE, BLUE);		
+	free(speed_string);
+	
+	TP_Update_Chart(speed);
 }
 
+void TP_Update_Chart(uint32_t speed)
+{
+	Y_new = (int)speed * 2;
+	X_new = X_old + 2;
+	
+	GUI_DrawLine(37 + X_old, 257 - Y_old, 37 + X_new, 257 - Y_new, RED, LINE_SOLID, DOT_PIXEL_1X1);
+	GUI_DrawPoint(37 + X_new, 257 - Y_new, RED, DOT_PIXEL_2X2, DOT_STYLE_DFT);
+	
+	X_old = X_new;
+	Y_old = Y_new;
+	
+	if ( X_new >= (440 - 37))
+	{
+		LCD_SetArealColor(37, 130, 440, 258, FONT_BACKGROUND);
+		GUI_DrawLine(35, 160, 403, 160, BLUE, LINE_SOLID, DOT_PIXEL_1X1); // pozioma 50km/h
+		X_new = 0;
+		X_old = 0;
+	}
+}
 /*******************************************************************************
 function:
 		Touch pad initialization
