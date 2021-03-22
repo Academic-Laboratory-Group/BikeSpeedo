@@ -14,5 +14,5 @@ Nad częścią hardware-ową główny nadzór będzie sprawował Krzysztof, nato
 * Konfiguracja oraz prezentacja wyników na wyświetlaczu dotykowym.
 * Urządzenie zasilane z akumulatora (z pełną jego obsługą, czyli ładowarką + monitoringiem stanu naładowania).
 * Projekt płytki PCB w celu demonstracji urządzenia.
-* Szacowany czas pracy na baterii powinien wynieść około 7.5 godziny.
+* Szacowany czas pracy na baterii Li-Ion o pojemności 1300 mAh powinien wynieść około 7.5 godziny.
 
