@@ -56,7 +56,7 @@ void TP_GetAdFac(void);
 void TP_Adjust(void);
 void TP_Dialog(void);
 void TP_DrawBoard(void);
-void TP_Temp(uint32_t time);
+void TP_Temp(void);
 void TP_Show_Main(void);
 void TP_Show_Config(void);
 void TP_Update_Config();

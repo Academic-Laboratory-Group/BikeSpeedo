@@ -3,9 +3,9 @@
 <title>Static Call Graph - [Predkosciomierz_rowerowy\Predkosciomierz_rowerowy.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image Predkosciomierz_rowerowy\Predkosciomierz_rowerowy.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Mar 17 20:10:32 2021
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Wed Mar 24 17:28:05 2021
 <BR><P>
-<H3>Maximum Stack Usage =        392 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        400 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 TIM6_DAC_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 <P>
@@ -924,7 +924,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9a]"></a>HAL_TIM_IC_CaptureCallback</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, main.o(i.HAL_TIM_IC_CaptureCallback))
+<P><STRONG><a name="[9a]"></a>HAL_TIM_IC_CaptureCallback</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, main.o(i.HAL_TIM_IC_CaptureCallback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = HAL_TIM_IC_CaptureCallback
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_ReadCapturedValue
@@ -970,7 +970,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[a3]"></a>HAL_TIM_IRQHandler</STRONG> (Thumb, 358 bytes, Stack size 16 bytes, stm32f4xx_hal_tim.o(i.HAL_TIM_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 392<LI>Call Chain = HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_PeriodElapsedCallback
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IC_CaptureCallback
@@ -1036,8 +1036,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PWM_SetValue
 </UL>
 
-<P><STRONG><a name="[a6]"></a>HAL_TIM_PeriodElapsedCallback</STRONG> (Thumb, 56 bytes, Stack size 32 bytes, main.o(i.HAL_TIM_PeriodElapsedCallback))
-<BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<P><STRONG><a name="[a6]"></a>HAL_TIM_PeriodElapsedCallback</STRONG> (Thumb, 74 bytes, Stack size 40 bytes, main.o(i.HAL_TIM_PeriodElapsedCallback))
+<BR><BR>[Stack]<UL><LI>Max Depth = 384<LI>Call Chain = HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TP_Update_Speed
@@ -1351,14 +1351,14 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f446xx.o(.text)
 </UL>
 <P><STRONG><a name="[41]"></a>TIM6_DAC_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.TIM6_DAC_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 392<LI>Call Chain = TIM6_DAC_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = TIM6_DAC_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f446xx.o(RESET)
 </UL>
 <P><STRONG><a name="[39]"></a>TIM8_CC_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.TIM8_CC_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 392<LI>Call Chain = TIM8_CC_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
+<BR><BR>[Stack]<UL><LI>Max Depth = 400<LI>Call Chain = TIM8_CC_IRQHandler &rArr; HAL_TIM_IRQHandler &rArr; HAL_TIM_PeriodElapsedCallback &rArr; TP_Update_Speed &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IRQHandler
 </UL>
@@ -1432,7 +1432,7 @@ Global Symbols
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TP_Temp
 </UL>
 
-<P><STRONG><a name="[e4]"></a>TP_Show_Speed</STRONG> (Thumb, 294 bytes, Stack size 48 bytes, lcd_touch.o(i.TP_Show_Speed))
+<P><STRONG><a name="[e4]"></a>TP_Show_Speed</STRONG> (Thumb, 376 bytes, Stack size 48 bytes, lcd_touch.o(i.TP_Show_Speed))
 <BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = TP_Show_Speed &rArr; GUI_DisString_EN &rArr; GUI_DisChar &rArr; GUI_DrawPoint &rArr; LCD_SetPointlColor &rArr; LCD_SetCursor &rArr; LCD_SetWindow &rArr; LCD_WriteReg &rArr; SPI4W_Write_Byte &rArr; HAL_SPI_Transmit &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_DrawLine
@@ -1442,7 +1442,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TP_Temp
 </UL>
 
-<P><STRONG><a name="[e5]"></a>TP_Temp</STRONG> (Thumb, 570 bytes, Stack size 24 bytes, lcd_touch.o(i.TP_Temp))
+<P><STRONG><a name="[e5]"></a>TP_Temp</STRONG> (Thumb, 558 bytes, Stack size 24 bytes, lcd_touch.o(i.TP_Temp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = TP_Temp &rArr; TP_Update_Config &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TP_Update_Config
@@ -1627,7 +1627,7 @@ Global Symbols
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TP_Update_Config
 </UL>
 
-<P><STRONG><a name="[61]"></a>main</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[61]"></a>main</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = main &rArr; TP_Temp &rArr; TP_Update_Config &rArr; __hardfp_pow &rArr; __kernel_poly &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_TIM3_Init

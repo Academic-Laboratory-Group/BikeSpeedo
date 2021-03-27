@@ -23,6 +23,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+
 #include "DEV_Config.h"
 #include "LCD_Driver.h"
 #include "LCD_GUI.h"
@@ -31,7 +32,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 uint32_t IC_Value = 0;
-uint32_t IC_Value2 = 0;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -115,7 +115,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-		TP_Temp(IC_Value);
+		TP_Temp();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -171,9 +171,9 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	if ((htim==&htim8)&&(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4))  // if interrput source is channel 3
 	{
-		IC_Value = HAL_TIM_ReadCapturedValue(&htim8, TIM_CHANNEL_4);  // capture the first value
-		IC_Value= IC_Value / 5;
-		__HAL_TIM_SET_COUNTER(htim, 0);
+		IC_Value = HAL_TIM_ReadCapturedValue(&htim8, TIM_CHANNEL_4);
+		IC_Value = IC_Value / 5;
+		__HAL_TIM_SET_COUNTER(&htim8, 0);
 	}
 }
 
@@ -184,8 +184,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		if(STATE == 2)
 		{
 			TP_Update_Speed(IC_Value);
-			uint8_t text[25] = "Wykryto przerwanie\r\n";
-			HAL_UART_Transmit(&huart2,text , 25, 1000);
+			
+			if (__HAL_TIM_GET_COUNTER(&htim8) > 25000) //5s
+				IC_Value = 0;
 		}
 	}
 }

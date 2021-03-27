@@ -753,7 +753,7 @@ str[i] = '\0';
 return i; 
 } 
 
-void TP_Temp(uint32_t time)
+void TP_Temp(void)
 {
     TP_Scan(0);
     if (sTP_DEV.chStatus & TP_PRESS_DOWN) {		//Press the button
@@ -770,8 +770,11 @@ void TP_Temp(uint32_t time)
 							}
 							if ((sTP_Draw.Xpoint > 40 && sTP_Draw.Xpoint < 215) && (sTP_Draw.Ypoint > 120 && sTP_Draw.Ypoint < 190) && STATE == 1)
 							{
+								X_new = 0;
+								Y_new = 0;
+								X_old = 0;
+								Y_old = 0;		
 								TP_Show_Speed();
-								STATE = 2;
 							}
 							else if ((sTP_Draw.Xpoint > 262 && sTP_Draw.Xpoint < 440) && (sTP_Draw.Ypoint > 120 && sTP_Draw.Ypoint < 190) && STATE == 1)
 							{
@@ -783,7 +786,7 @@ void TP_Temp(uint32_t time)
 									SIZE_CIRCLE[i] = 0;
 								}
 							}
-							else if (sTP_Draw.Xpoint < 100 && sTP_Draw.Ypoint > 280 && (STATE == 2 || STATE == 3))
+							else if (sTP_Draw.Xpoint < 100 && sTP_Draw.Ypoint > 280 && (STATE == 2 || STATE == 3 || STATE == 4))
 							{
 								STATE = 1;
 								TP_Show_Main();
@@ -970,8 +973,9 @@ void TP_Update_Config(void)
 void TP_Show_Speed(void)
 {
 	LCD_Clear(LCD_BACKGROUND);
-	if(sLCD_DIS.LCD_Dis_Column > sLCD_DIS.LCD_Dis_Page) 
+	if(size_circle != 0.0) 
 	{
+		STATE = 2;
 		GUI_DisString_EN(33, 20, "Predkosciomierz rowerowy", &Font24, WHITE, BLUE);
 		GUI_DrawLine(0, 55, LCD_WIDTH, 55, RED, LINE_SOLID, DOT_PIXEL_3X3);
 		
@@ -993,8 +997,14 @@ void TP_Show_Speed(void)
 		GUI_DisString_EN(440, 270, "t", &Font20, WHITE, BLUE);	
 	} 
 	else 
-	{ //Vertical screen display
-
+	{ 
+		STATE = 4;
+		GUI_DisString_EN(33, 20, "Predkosciomierz rowerowy", &Font24, WHITE, BLUE);
+		GUI_DrawLine(0, 55, LCD_WIDTH, 55, RED, LINE_SOLID, DOT_PIXEL_3X3);
+		
+		GUI_DisString_EN(35, 147, "WPIERW PRZEJDZ DO KONFIGURACJI", &Font20, WHITE, BLUE);
+		
+		GUI_DisString_EN(20, 290, "Powrot", &Font20, WHITE, BLUE);
 	}
 }
 
@@ -1033,7 +1043,7 @@ void TP_Update_Chart(uint32_t speed)
 	X_old = X_new;
 	Y_old = Y_new;
 	
-	if ( X_new >= (440 - 37))
+	if ( X_new > (440 - 39))
 	{
 		LCD_SetArealColor(37, 130, 440, 258, FONT_BACKGROUND);
 		GUI_DrawLine(35, 160, 403, 160, BLUE, LINE_SOLID, DOT_PIXEL_1X1); // pozioma 50km/h
