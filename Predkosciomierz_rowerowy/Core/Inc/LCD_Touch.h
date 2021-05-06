@@ -51,19 +51,14 @@ typedef struct{
 	DOT_PIXEL DotPixel; 
 }TP_DRAW;
 
+extern TP_DEV sTP_DEV;
+extern TP_DRAW sTP_Draw;
+extern LCD_DIS sLCD_DIS;
 
+uint8_t TP_Scan(uint8_t chCoordType);
 void TP_GetAdFac(void);
 void TP_Adjust(void);
 void TP_Dialog(void);
 void TP_DrawBoard(void);
-void TP_Temp(void);
-void TP_Show_Main(void);
-void TP_Show_Config(void);
-void TP_Update_Config();
-void TP_Show_Speed(void);
-void TP_Update_Speed(uint32_t time);
-void TP_Update_Chart(uint32_t speed);
-int intToStr(int x, char str[], int d);
-char* float_to_string(float n, int afterpoint) ;
 void TP_Init( LCD_SCAN_DIR Lcd_ScanDir );
 #endif

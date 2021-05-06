@@ -28,6 +28,7 @@
 #include "LCD_Driver.h"
 #include "LCD_GUI.h"
 #include "LCD_Touch.h"
+#include "BikeSpeedo.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -104,7 +105,7 @@ int main(void)
 	TP_Init(Lcd_ScanDir);
 	
 	TP_GetAdFac();
-	TP_Show_Main();
+	Show_Main();
 	
 	HAL_TIM_IC_Start_IT(&htim8, TIM_CHANNEL_4);
 	HAL_TIM_Base_Start_IT(&htim6);
@@ -115,7 +116,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-		TP_Temp();
+		Update();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -183,7 +184,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		if(STATE == 2)
 		{
-			TP_Update_Speed(IC_Value);
+			Update_Speed(IC_Value);
 			
 			if (__HAL_TIM_GET_COUNTER(&htim8) > 25000) //5s
 				IC_Value = 0;
