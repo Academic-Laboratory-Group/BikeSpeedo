@@ -16,6 +16,7 @@
 "predkosciomierz_rowerowy\usart.o"
 "predkosciomierz_rowerowy\stm32f4xx_it.o"
 "predkosciomierz_rowerowy\stm32f4xx_hal_msp.o"
+"predkosciomierz_rowerowy\bikespeedo.o"
 "predkosciomierz_rowerowy\stm32f4xx_hal_spi.o"
 "predkosciomierz_rowerowy\stm32f4xx_hal_rcc.o"
 "predkosciomierz_rowerowy\stm32f4xx_hal_rcc_ex.o"
