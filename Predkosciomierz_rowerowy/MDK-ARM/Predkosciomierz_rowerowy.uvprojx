@@ -478,6 +478,11 @@
               <FileType>1</FileType>
               <FilePath>..\Core\Src\BikeSpeedo.c</FilePath>
             </File>
+            <File>
+              <FileName>Utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\Utils.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

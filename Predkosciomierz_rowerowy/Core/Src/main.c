@@ -105,21 +105,20 @@ int main(void)
 	TP_Init(Lcd_ScanDir);
 	
 	TP_GetAdFac();
-	Show_Main();
+	init();
 	
 	HAL_TIM_IC_Start_IT(&htim8, TIM_CHANNEL_4);
-	HAL_TIM_Base_Start_IT(&htim6);
   /* USER CODE END 2 */
 
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-		Update();
-    /* USER CODE BEGIN 3 */
+		TP_Scan(0);
+		if (sTP_DEV.chStatus & TP_PRESS_DOWN) // Update only when sth was touched
+		{		
+			processInput();
+		}
   }
-  /* USER CODE END 3 */
 }
 
 /**
@@ -182,13 +181,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM6)
 	{
-		if(STATE == 2)
-		{
-			Update_Speed(IC_Value);
-			
-			if (__HAL_TIM_GET_COUNTER(&htim8) > 25000) //5s
-				IC_Value = 0;
-		}
+		updateVelocityValue(IC_Value);
+		
+		if (__HAL_TIM_GET_COUNTER(&htim8) > 25000) //5s
+			IC_Value = 0;
 	}
 }
 
