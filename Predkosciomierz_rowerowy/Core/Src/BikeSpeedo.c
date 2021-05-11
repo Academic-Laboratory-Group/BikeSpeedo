@@ -1,24 +1,22 @@
 #include "BikeSpeedo.h"
 #include "LCD_Touch.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 #include "Debug.h"
 #include "tim.h"
 #include "Utils.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <cmath>
 #include <assert.h>
 
 
-#define MAX_DIGITS 4;
-char SIZE_CIRCLE [4];
-char OLDSIZE_CIRCLE [4];
-int size_tab = 0;
-float size_circle = 0;
-int STATE = MAINMENU;
-int X_new = 0;
-int Y_new = 0;
-int X_old = 0;
-int Y_old = 0;
+float g_wheelSize = 0.0f;
+float g_newWheelSize = 0.0f;
+int g_STATE = MAINMENU;
+int g_xNew = 0;
+int g_yNew = 0;
+int g_xOld = 0;
+int g_yOld = 0;
 #define PI 3.14
 
 
@@ -49,12 +47,17 @@ void showConfig(void)
 			
 			GUI_DisString_EN(15, 80, "Set size of wheel", &Font20, WHITE, BLUE);	
 			GUI_DrawRectangle(40, 120, 150, 160, RED, DRAW_EMPTY, DOT_PIXEL_2X2);
-			GUI_DisString_EN(45, 132, SIZE_CIRCLE, &Font20, WHITE, BLUE);	
+			
+			int size = snprintf(0, 0, "%.2f", g_wheelSize); // wheel size float to string
+			char str[size + 1];
+			snprintf(str, sizeof(str), "%.2f", g_wheelSize);
+			GUI_DisString_EN(45, 132, str, &Font20, WHITE, BLUE);	
+			
 			GUI_DisString_EN(170, 132, "inches.", &Font20, WHITE, BLUE);	
-			GUI_DisString_EN(25, 220, "1  2  3  4  5  6  7  8  9  0  .", &Font20, WHITE, BLUE);	
+			GUI_DisString_EN(380, 145, "<", &Font24, WHITE, BLUE);	
+			GUI_DisString_EN(25, 220, "0  1  2  3  4  5  6  7  8  9  .", &Font20, WHITE, BLUE);	
 			
 			GUI_DisString_EN(20, 290, "Return", &Font20, WHITE, BLUE);
-			
 			GUI_DisString_EN(380, 290, "Enter", &Font20, WHITE, BLUE);
     } 
 }
@@ -62,12 +65,12 @@ void showConfig(void)
 void showVelocity(void)
 {
 	LCD_Clear(LCD_BACKGROUND);
-	X_new = 0;
-	Y_new = 0;
-	X_old = 0;
-	Y_old = 0;	
+	g_xNew = 0;
+	g_yNew = 0;
+	g_xOld = 0;
+	g_yOld = 0;	
 	
-	if(size_circle != 0.0f) 
+	if(g_wheelSize != 0.0f) 
 	{
 		GUI_DisString_EN(33, 20, "BikeSpeedo", &Font24, WHITE, BLUE);
 		GUI_DrawLine(0, 55, LCD_WIDTH, 55, RED, LINE_SOLID, DOT_PIXEL_3X3);
@@ -98,45 +101,44 @@ void showVelocity(void)
 
 void updateChart(int velocity)
 {
-	Y_new = velocity * 2;
-	X_new = X_old + 2;
+	g_yNew = velocity * 2;
+	g_xNew = g_xOld + 2;
 	
-	GUI_DrawLine(37 + X_old, 256 - Y_old, 37 + X_new, 256 - Y_new, RED, LINE_SOLID, DOT_PIXEL_1X1);
-	GUI_DrawPoint(37 + X_new, 256 - Y_new, RED, DOT_PIXEL_2X2, DOT_STYLE_DFT);
+	GUI_DrawLine(37 + g_xOld, 256 - g_yOld, 37 + g_xNew, 256 - g_yNew, RED, LINE_SOLID, DOT_PIXEL_1X1);
+	GUI_DrawPoint(37 + g_xNew, 256 - g_yNew, RED, DOT_PIXEL_2X2, DOT_STYLE_DFT);
 	
-	X_old = X_new;
-	Y_old = Y_new;
+	g_xOld = g_xNew;
+	g_yOld = g_yNew;
 	
-	if ( X_new > (440 - 39))
+	if ( g_xNew > (440 - 39))
 	{
 		LCD_SetArealColor(37, 130, 440, 258, FONT_BACKGROUND);
 		GUI_DrawLine(35, 160, 403, 160, BLUE, LINE_SOLID, DOT_PIXEL_1X1); // horizontal 50km/h
-		X_new = 0;
-		X_old = 0;
+		g_xNew = 0;
+		g_xOld = 0;
 	}
 }
 
 void updateVelocityValue(int time)
 {
-	if(STATE == VELOCITY && size_circle != 0.f)
+	if(g_STATE == VELOCITY && g_wheelSize != 0.f)
 	{
 		float velocity = 0.0f;
 
 		if (time != 0)
 		{
-			velocity = ((size_circle * 0.0254f * 3.14f)/((float)time/1000.0f))*3.6f; // km/h
+			velocity = ((g_wheelSize * 0.0254f * 3.14f)/((float)time/1000.0f))*3.6f; // km/h
 		}
 
 		LCD_SetArealColor(240, 80, 410, 95, FONT_BACKGROUND);
 		
 		if (velocity > 0.f)
 		{
-			int size = snprintf(0, 0, "%.2f", velocity);
-			char velocityString[size + 1];
-			snprintf(velocityString, sizeof(velocityString), "%.2f", velocity);
+			int size = snprintf(0, 0, "%.2f", velocity); // float to string
+			char s[size + 1];
+			snprintf(s, sizeof(s), "%.2f", velocity);
 			
-			GUI_DisString_EN(240, 80, velocityString, &Font20, WHITE, BLUE);		
-			free(velocityString);
+			GUI_DisString_EN(240, 80, s, &Font20, WHITE, BLUE);		
 		}
 		
 		updateChart(velocity);
@@ -145,7 +147,7 @@ void updateVelocityValue(int time)
 
 void fullRender(void)
 {
-	switch(STATE)
+	switch(g_STATE)
 	{
 		case MAINMENU:
 		{
@@ -170,61 +172,91 @@ void fullRender(void)
 	}
 }
 
-void updateConfigValue(void)
+int updateConfigValue(float v)
 {
+	int size = snprintf(0, 0, "%.2f", v); // convertion float to string
+	char s[size + 1];
+	snprintf(s, sizeof(s), "%.2f", v);
+	
 	LCD_SetArealColor(43, 123, 147, 157, FONT_BACKGROUND);
-	GUI_DisString_EN(45, 132, SIZE_CIRCLE, &Font20, WHITE, BLUE);
+	int tmp = GUI_DisStringInBox_EN(45, 132, 145, 155, s, &Font20, WHITE, BLUE); // display
+	
 	HAL_Delay(200);
+	
+	if(tmp < 0) // check errors
+	{
+		// here is endless loop if g_wheelSize is causing tmp < 0
+		updateConfigValue(g_newWheelSize);
+	}
+	return tmp;
+}
+
+void floor2d(float* v)
+{
+	*v *= 100.0f;
+	*v = roundf(*v);
+	*v /= 100.0f;
+}
+
+void floor3d(float* v)
+{
+	*v *= 1000.0f;
+	*v = roundf(*v);
+	*v /= 1000.0f;
 }
 
 void inputtingValue()
 {
-	if (sTP_Draw.Xpoint > 0 && sTP_Draw.Xpoint < 52 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
+	static float multiplier = 10.0f;
+	float newWheelSize = g_newWheelSize;
+	
+	if (sTP_Draw.Xpoint < 440 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260 && roundf(100.0f * multiplier) >= 1.0f)
 	{
-		SIZE_CIRCLE[size_tab] = '1';
+		int tmp = sTP_Draw.Xpoint / 44;
+		
+		if((int)multiplier == 10)
+		{
+			newWheelSize = newWheelSize * multiplier + tmp;
+		}
+		else
+		{			
+			newWheelSize += tmp * multiplier;
+			multiplier /= 10.0f;
+		}
 	}
-	else if (sTP_Draw.Xpoint > 52 && sTP_Draw.Xpoint < 95 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
+	else if (sTP_Draw.Xpoint >= 440 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260 && (int)multiplier == 10) // .
 	{
-		SIZE_CIRCLE[size_tab] = '2';
-	}
-	else if (sTP_Draw.Xpoint > 95 && sTP_Draw.Xpoint < 138 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '3';
-	}
-	else if (sTP_Draw.Xpoint > 138 && sTP_Draw.Xpoint < 181 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '4';
-	}
-	else if (sTP_Draw.Xpoint > 181 && sTP_Draw.Xpoint < 224 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '5';
-	}
-	else if (sTP_Draw.Xpoint > 224 && sTP_Draw.Xpoint < 267 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '6';
-	}
-	else if (sTP_Draw.Xpoint > 267 && sTP_Draw.Xpoint < 310 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '7';
-	}
-	else if (sTP_Draw.Xpoint > 310 && sTP_Draw.Xpoint < 353 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '8';
-	}
-	else if (sTP_Draw.Xpoint > 353 && sTP_Draw.Xpoint < 396 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '9';
-	}
-	else if (sTP_Draw.Xpoint > 396 && sTP_Draw.Xpoint < 439 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '0';
-	}
-	else if (sTP_Draw.Xpoint > 439 && sTP_Draw.Xpoint < 480 && sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260)
-	{
-		SIZE_CIRCLE[size_tab] = '.';
+		multiplier = 0.10f;
 	}		
-	size_tab = (size_tab + 1) % MAX_DIGITS;
-	updateConfigValue();
+	else if(sTP_Draw.Xpoint >= 300 && sTP_Draw.Ypoint > 140 && sTP_Draw.Ypoint < 200) // <
+	{
+		if((int)multiplier == 10)
+		{
+			newWheelSize = (float)((int)newWheelSize / 10);
+		}
+		else
+		{
+			newWheelSize -= fmodf(newWheelSize,multiplier*100.f);
+			multiplier *= 10.0f;
+			
+			if(multiplier > 0.9f && multiplier < 1.1f) // float precision
+			{
+				multiplier = 10.0f;
+				newWheelSize /= 10.0f;
+			}
+		}
+	}
+	
+	floor2d(&newWheelSize); // because of float multiplication precision
+	floor3d(&multiplier); // multiplier cannot be lower than 0.01f
+	if(updateConfigValue(newWheelSize) == 0) // Check if new number fits in the frame
+	{
+		g_newWheelSize = newWheelSize;
+	}
+	else
+	{
+		newWheelSize = g_newWheelSize;
+	}
 }
 
 void init(void)
@@ -241,42 +273,38 @@ void processInput()
 		//Determine whether the law is legal
 		sTP_Draw.Ypoint < sLCD_DIS.LCD_Dis_Page)
 		{
-			switch(STATE)
+			switch(g_STATE)
 			{
 				case MAINMENU:
 				{
 					if (sTP_Draw.Xpoint > 40 && sTP_Draw.Xpoint < 215 && sTP_Draw.Ypoint > 120 && sTP_Draw.Ypoint < 190) // Velocity
 					{
-						STATE = VELOCITY;
+						g_STATE = VELOCITY;
 						fullRender();
 						HAL_TIM_Base_Start_IT(&htim6); // must be after render
 					}
 					else if (sTP_Draw.Xpoint > 262 && sTP_Draw.Xpoint < 440 && sTP_Draw.Ypoint > 120 && sTP_Draw.Ypoint < 190) // Configuration
 					{
-						STATE = CONFIGURATION;
-						strcpy(OLDSIZE_CIRCLE, SIZE_CIRCLE);
-						memset(SIZE_CIRCLE, 0, sizeof(SIZE_CIRCLE));
+						g_STATE = CONFIGURATION;
 						fullRender();
 					}
 					break;
 				}
 				case CONFIGURATION:
 				{
-					if (sTP_Draw.Xpoint < 100 && sTP_Draw.Ypoint > 280) // Return
-					{
-						strcpy(SIZE_CIRCLE, OLDSIZE_CIRCLE);
-						STATE = MAINMENU;
-						fullRender();
-					}	
-					else if (sTP_Draw.Xpoint > 370 && sTP_Draw.Xpoint < 480 && sTP_Draw.Ypoint > 280 && sTP_Draw.Ypoint < 320) // Enter
-					{
-						size_circle = str2float(SIZE_CIRCLE);
-						STATE = MAINMENU;
-						fullRender();
-					}
-					else if(sTP_Draw.Ypoint > 200 && sTP_Draw.Ypoint < 260) // Values
+					if(sTP_Draw.Ypoint > 140 && sTP_Draw.Ypoint < 260) // Values
 					{
 						inputtingValue();
+					}
+					else if ((sTP_Draw.Xpoint < 100 || sTP_Draw.Xpoint > 370) && sTP_Draw.Ypoint > 260) // Return || Enter
+					{
+						if (sTP_Draw.Xpoint > 370 ) // Enter
+						{
+							g_wheelSize = g_newWheelSize;
+						}
+						g_newWheelSize = 0.0f;
+						g_STATE = MAINMENU;
+						fullRender();
 					}
 					break;
 				}
@@ -285,7 +313,7 @@ void processInput()
 					if (sTP_Draw.Xpoint < 100 && sTP_Draw.Ypoint > 280) // Return
 					{
 						HAL_TIM_Base_Stop_IT(&htim6);
-						STATE = MAINMENU;
+						g_STATE = MAINMENU;
 						fullRender();
 					}
 					break;
