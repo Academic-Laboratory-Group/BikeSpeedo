@@ -328,6 +328,60 @@ void GUI_DisString_EN(POINT Xstart, POINT Ystart, const char * pString,
 }
 
 /******************************************************************************
+Added function by Norbert Ligas
+https://github.com/Academic-Laboratory-Group
+
+function:	Display the string in a box. No exceeding text out of frame.
+parameter:
+	Xbegin           ：X begin coordinate
+	Ybegin           ：Y begin coordinate
+	Xend             ：X end coordinate
+	Yend             ：Y end coordinate
+	pString          ：The first address of the English string to be displayed
+	Font             ：A structure pointer that displays a character size
+	Color_Background : Select the background color of the English character
+	Color_Foreground : Select the foreground color of the English character
+******************************************************************************/
+int GUI_DisStringInBox_EN(POINT Xbegin, POINT Ybegin, POINT Xend, POINT Yend, const char * pString,
+                      sFONT* Font, COLOR Color_Background, COLOR Color_Foreground )
+{
+    POINT Xpoint = Xbegin;
+    POINT Ypoint = Ybegin;
+
+    if(Xbegin > sLCD_DIS.LCD_Dis_Column || Ybegin > sLCD_DIS.LCD_Dis_Page || 
+			Xend > sLCD_DIS.LCD_Dis_Column || Yend > sLCD_DIS.LCD_Dis_Page) {
+//        DEBUG("GUI_DisString_EN Input exceeds the normal display range\r\n");
+        return -2; // GUI_DisString_EN Input exceeds the normal display range
+    }    
+		else if(Xbegin >= Xend || Ybegin >= Yend) {
+//        DEBUG("GUI_DisString_EN wrong values of the position arguments Xbegin >= Xend || Ybegin >= Yend\r\n");
+        return -3; // GUI_DisString_EN wrong values of the position arguments Xbegin >= Xend || Ybegin >= Yend
+    }
+
+    while(* pString != '\0') {
+        //if X direction filled , reposition to(Xstart,Ypoint),Ypoint is Y direction plus the height of the character
+        if((Xpoint + Font->Width ) > Xend ) {
+            Xpoint = Xbegin;
+            Ypoint += Font->Height;
+        }
+
+        // If the Y direction is full, stop drawing
+        if((Ypoint  + Font->Height ) > Yend ) {
+					return -1; // Box is full.
+        }
+				
+        GUI_DisChar(Xpoint, Ypoint, * pString, Font, Color_Background, Color_Foreground);
+
+        //The next character of the address
+        ++pString;
+
+        //The next word of the abscissa increases the font of the broadband
+        Xpoint += Font->Width;
+    }
+		return 0;
+}
+
+/******************************************************************************
 function:	Display the string
 parameter:
 	Xstart           ：X coordinate

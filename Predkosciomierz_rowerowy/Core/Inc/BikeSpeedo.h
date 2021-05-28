@@ -3,12 +3,15 @@
 
 #include "stm32f4xx_hal.h"
 
-void Update(void);
-void Show_Main(void);
-void Show_Config(void);
-void Update_Config();
-void Show_Speed(void);
-void Update_Speed(uint32_t time);
-void Update_Chart(uint32_t speed);
+enum States
+{
+	MAINMENU,
+	CONFIGURATION,
+	VELOCITY
+};
+
+void processInput(void);
+void init(void);
+void updateVelocityValue(int time);
 
 #endif
