@@ -13694,7 +13694,6 @@ Siemens, Philips, Valvo&lt;p&gt;
 <part name="SV1" library="con-lstb" library_urn="urn:adsk.eagle:library:162" deviceset="MA03-1" device="" package3d_urn="urn:adsk.eagle:package:8339/1" value="SENSOR"/>
 <part name="SUPPLY20" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="U2" library="NUCLEO-F446RE" deviceset="NUCLEO-F446RE" device=""/>
-<part name="SUPPLY21" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY22" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="C13" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C0805" package3d_urn="urn:adsk.eagle:package:23617/2" value="100nF"/>
 <part name="SUPPLY23" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
@@ -13707,7 +13706,6 @@ Siemens, Philips, Valvo&lt;p&gt;
 <part name="R8" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="R-EU_" device="R0805" package3d_urn="urn:adsk.eagle:package:23553/2" value="0R"/>
 <part name="SUPPLY18" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 <part name="SUPPLY19" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
-<part name="SUPPLY26" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -13870,17 +13868,6 @@ Siemens, Philips, Valvo&lt;p&gt;
 <attribute name="NAME" x="256.54" y="80.01" size="1.778" layer="95" rot="MR0"/>
 <attribute name="VALUE" x="256.54" y="-1.27" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="U2" gate="G$4" x="251.46" y="99.06" smashed="yes" rot="MR0">
-<attribute name="NAME" x="256.54" y="113.03" size="1.778" layer="95" rot="MR0"/>
-<attribute name="VALUE" x="256.54" y="85.09" size="1.778" layer="96" rot="R180"/>
-</instance>
-<instance part="U2" gate="G$6" x="246.38" y="137.16" smashed="yes" rot="MR0">
-<attribute name="NAME" x="256.54" y="153.67" size="1.778" layer="95" rot="MR0"/>
-<attribute name="VALUE" x="256.54" y="118.11" size="1.778" layer="96" rot="R180"/>
-</instance>
-<instance part="SUPPLY21" gate="GND" x="228.6" y="116.84" smashed="yes">
-<attribute name="VALUE" x="226.695" y="113.665" size="1.778" layer="96"/>
-</instance>
 <instance part="SUPPLY22" gate="GND" x="223.52" y="-2.54" smashed="yes">
 <attribute name="VALUE" x="221.615" y="-5.715" size="1.778" layer="96"/>
 </instance>
@@ -13897,10 +13884,6 @@ Siemens, Philips, Valvo&lt;p&gt;
 </instance>
 <instance part="SUPPLY24" gate="GND" x="322.58" y="-7.62" smashed="yes">
 <attribute name="VALUE" x="320.675" y="-10.795" size="1.778" layer="96"/>
-</instance>
-<instance part="U2" gate="G$3" x="365.76" y="10.16" smashed="yes">
-<attribute name="NAME" x="350.52" y="21.59" size="1.778" layer="95"/>
-<attribute name="VALUE" x="350.52" y="-3.81" size="1.778" layer="96" rot="MR180"/>
 </instance>
 <instance part="SUPPLY25" gate="GND" x="330.2" y="55.88" smashed="yes">
 <attribute name="VALUE" x="328.295" y="52.705" size="1.778" layer="96"/>
@@ -13921,18 +13904,15 @@ Siemens, Philips, Valvo&lt;p&gt;
 <attribute name="NAME" x="37.846" y="155.4226" size="1.778" layer="95" rot="R270"/>
 <attribute name="VALUE" x="35.433" y="155.448" size="1.778" layer="96" rot="R270"/>
 </instance>
-<instance part="R8" gate="G$1" x="177.8" y="45.72" smashed="yes" rot="R180">
-<attribute name="NAME" x="181.61" y="44.2214" size="1.778" layer="95" rot="R180"/>
-<attribute name="VALUE" x="181.61" y="49.022" size="1.778" layer="96" rot="R180"/>
+<instance part="R8" gate="G$1" x="182.88" y="38.1" smashed="yes" rot="R180">
+<attribute name="NAME" x="186.69" y="36.6014" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="186.69" y="41.402" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="SUPPLY18" gate="GND" x="185.42" y="40.64" smashed="yes">
-<attribute name="VALUE" x="183.515" y="37.465" size="1.778" layer="96"/>
+<instance part="SUPPLY18" gate="GND" x="190.5" y="33.02" smashed="yes">
+<attribute name="VALUE" x="188.595" y="29.845" size="1.778" layer="96"/>
 </instance>
-<instance part="SUPPLY19" gate="GND" x="170.18" y="40.64" smashed="yes">
-<attribute name="VALUE" x="168.275" y="37.465" size="1.778" layer="96"/>
-</instance>
-<instance part="SUPPLY26" gate="GND" x="388.62" y="-5.08" smashed="yes">
-<attribute name="VALUE" x="386.715" y="-8.255" size="1.778" layer="96"/>
+<instance part="SUPPLY19" gate="GND" x="175.26" y="33.02" smashed="yes">
+<attribute name="VALUE" x="173.355" y="29.845" size="1.778" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -14042,12 +14022,6 @@ Siemens, Philips, Valvo&lt;p&gt;
 <pinref part="SUPPLY20" gate="GND" pin="GND"/>
 </segment>
 <segment>
-<pinref part="U2" gate="G$6" pin="CN5_GND"/>
-<wire x1="231.14" y1="121.92" x2="228.6" y2="121.92" width="0.1524" layer="91"/>
-<pinref part="SUPPLY21" gate="GND" pin="GND"/>
-<wire x1="228.6" y1="121.92" x2="228.6" y2="119.38" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="U2" gate="G$2" pin="CN10_GND"/>
 <wire x1="226.06" y1="2.54" x2="223.52" y2="2.54" width="0.1524" layer="91"/>
 <wire x1="223.52" y1="2.54" x2="223.52" y2="0" width="0.1524" layer="91"/>
@@ -14087,21 +14061,15 @@ Siemens, Philips, Valvo&lt;p&gt;
 </segment>
 <segment>
 <pinref part="SUPPLY19" gate="GND" pin="GND"/>
-<wire x1="170.18" y1="43.18" x2="170.18" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="175.26" y1="35.56" x2="175.26" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="R8" gate="G$1" pin="2"/>
-<wire x1="170.18" y1="45.72" x2="172.72" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="175.26" y1="38.1" x2="177.8" y2="38.1" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R8" gate="G$1" pin="1"/>
-<wire x1="182.88" y1="45.72" x2="185.42" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="187.96" y1="38.1" x2="190.5" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="SUPPLY18" gate="GND" pin="GND"/>
-<wire x1="185.42" y1="45.72" x2="185.42" y2="43.18" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="U2" gate="G$3" pin="CN6_GND"/>
-<wire x1="386.08" y1="0" x2="388.62" y2="0" width="0.1524" layer="91"/>
-<pinref part="SUPPLY26" gate="GND" pin="GND"/>
-<wire x1="388.62" y1="0" x2="388.62" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="190.5" y1="38.1" x2="190.5" y2="35.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -14322,83 +14290,6 @@ Siemens, Philips, Valvo&lt;p&gt;
 <pinref part="U2" gate="G$2" pin="PC9"/>
 <wire x1="226.06" y1="55.88" x2="220.98" y2="55.88" width="0.1524" layer="91"/>
 <label x="220.98" y="55.88" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="RESET" class="0">
-<segment>
-<pinref part="U2" gate="G$3" pin="CN6_RESET"/>
-<wire x1="345.44" y1="7.62" x2="340.36" y2="7.62" width="0.1524" layer="91"/>
-<label x="340.36" y="7.62" size="1.778" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="TP_IRQ" class="0">
-<segment>
-<pinref part="U2" gate="G$4" pin="D3"/>
-<wire x1="261.62" y1="99.06" x2="279.4" y2="99.06" width="0.1524" layer="91"/>
-<label x="279.4" y="99.06" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="TP_CS" class="0">
-<segment>
-<pinref part="U2" gate="G$4" pin="D4"/>
-<wire x1="261.62" y1="96.52" x2="264.16" y2="96.52" width="0.1524" layer="91"/>
-<label x="264.16" y="96.52" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="TP_BUSY" class="0">
-<segment>
-<pinref part="U2" gate="G$4" pin="D6"/>
-<wire x1="261.62" y1="91.44" x2="279.4" y2="91.44" width="0.1524" layer="91"/>
-<label x="279.4" y="91.44" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="LCD_DC" class="0">
-<segment>
-<pinref part="U2" gate="G$4" pin="D7"/>
-<wire x1="261.62" y1="88.9" x2="264.16" y2="88.9" width="0.1524" layer="91"/>
-<label x="264.16" y="88.9" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="LCD_RST" class="0">
-<segment>
-<pinref part="U2" gate="G$6" pin="D8"/>
-<wire x1="261.62" y1="144.78" x2="279.4" y2="144.78" width="0.1524" layer="91"/>
-<label x="279.4" y="144.78" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="LCD_BL" class="0">
-<segment>
-<pinref part="U2" gate="G$6" pin="D9"/>
-<wire x1="261.62" y1="142.24" x2="264.16" y2="142.24" width="0.1524" layer="91"/>
-<label x="264.16" y="142.24" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="LCD_CS" class="0">
-<segment>
-<pinref part="U2" gate="G$6" pin="D10"/>
-<wire x1="261.62" y1="139.7" x2="279.4" y2="139.7" width="0.1524" layer="91"/>
-<label x="279.4" y="139.7" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="MOSI" class="0">
-<segment>
-<pinref part="U2" gate="G$6" pin="D11"/>
-<wire x1="261.62" y1="137.16" x2="264.16" y2="137.16" width="0.1524" layer="91"/>
-<label x="264.16" y="137.16" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="MISO" class="0">
-<segment>
-<pinref part="U2" gate="G$6" pin="D12"/>
-<wire x1="261.62" y1="134.62" x2="279.4" y2="134.62" width="0.1524" layer="91"/>
-<label x="279.4" y="134.62" size="1.778" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="SCLK" class="0">
-<segment>
-<pinref part="U2" gate="G$6" pin="D13"/>
-<wire x1="261.62" y1="132.08" x2="264.16" y2="132.08" width="0.1524" layer="91"/>
-<label x="264.16" y="132.08" size="1.778" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$5" class="0">
