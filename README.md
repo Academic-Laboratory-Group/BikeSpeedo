@@ -17,10 +17,12 @@ Nad częścią hardware-ową główny nadzór będzie sprawował Krzysztof, nato
 * Szacowany czas pracy na baterii Li-Ion o pojemności 1300 mAh powinien wynieść około 7.5 godziny.
 
 # Efekt
-![Efekt](https://j.gifs.com/gpJBNY.gif)  
+![Effect](https://j.gifs.com/NOkZy6.gif)  
+
 
 #e
 ![HDMIDriver&ImageGenerator](https://j.gifs.com/WL4rZn.gif)
+
 
 #e
 
