@@ -18,4 +18,10 @@ Nad częścią hardware-ową główny nadzór będzie sprawował Krzysztof, nato
 
 # Efekt
 ![Efekt](https://j.gifs.com/gpJBNY.gif)  
+
+#e
+![HDMIDriver&ImageGenerator](https://j.gifs.com/WL4rZn.gif)
+
+#e
+
 [Efekt.mp4](docs/Effect.mp4 "Efekt.mp4")
